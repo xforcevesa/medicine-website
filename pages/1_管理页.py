@@ -31,8 +31,27 @@ authenticator = stauth.Authenticate(
 )
 
 
+def fetch_medicine_information():
+    import db
+    info = {}
+    for key, value in db.fields.items():
+        if key == 'id':
+            continue
+        if key == 'images':
+            upload_file = st.file_uploader("上传图片", type=['png', 'jpg'])
+            if upload_file is not None:
+                byte_value = upload_file.getvalue()
+                file_name = upload_file.name
+            continue
+        info[key] = st.text_input(value)
+    return info
+
+
 def render_manage_page():
-    st.header('Manage Page')
+    st.header('管理页')
+    info = fetch_medicine_information()
+    st.markdown('## 填写结果：\n\n' + '\n\n'.join([f"### {key}\n{value}" for key, value in info.items()]))
+    
 
 
 name, authentication_status, username = authenticator.login(clear_on_submit=True)
