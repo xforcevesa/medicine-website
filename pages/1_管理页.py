@@ -54,7 +54,11 @@ def render_manage_page():
     
 
 
-name, authentication_status, username = authenticator.login(clear_on_submit=True)
+name, authentication_status, username = authenticator.login(
+    clear_on_submit=True,
+    fields={'Form name':'此处登陆', 'Username':'用户名', 'Password':'密码',
+                      'Login': '登陆'}
+)
 
 if st.session_state["authentication_status"]:
     authenticator.logout('Logout', 'main')
